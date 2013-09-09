@@ -57,7 +57,6 @@ angular.module('tbtx.filter', []).filter('choiceTrans', function() {
         var match;
 
         match = pattern.exec(input);
-        console.log(match);
         if (match) {
             var data = {
                 id: match[3]
