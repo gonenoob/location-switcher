@@ -24,7 +24,22 @@ angular.module("tbtx.directive", []).directive('ngCopy', ['$rootScope',
             // transclude: true,
             // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),  以编程的方式修改一个指令的DOM模板的副本特性, 如同使用`ng-repeat`时. 你的编译函数也可以返回链接函数来修改生成元素的实例.
             link: function($scope, element, iAttrs, controller) {
-                new ZeroClipboard(element);
+                var clip = new ZeroClipboard(element);
+                clip.on('complete', function(client, args) {
+                    // this.style.display = 'none'; // "this" is the element that was clicked
+                    // alert("Copied text to clipboard: " + args.text);
+                    var animateArray = ['swing', 'shake', 'wobble', 'pulse', 'bounceIn'];
+                    var m = 0,
+                        n = animateArray.length;
+                    var seed = Math.floor(Math.random() * (n-m) + m);
+
+                    var name = 'animated ' + animateArray[seed];
+                    var $item = $(this);
+                    $item.addClass(name);
+                    setTimeout(function() {
+                        $item.removeClass(name);
+                    }, 500);
+                });
             }
         };
     }
