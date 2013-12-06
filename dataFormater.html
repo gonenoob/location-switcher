@@ -15,6 +15,8 @@
     <div class="container" ng-controller="appController">
         <div class="row">
             <p>将多行excel中的数据转换成JSON数据</p>
+            <p>默认分隔符使用\s+,但是当单列里面有空格时（如"男人 孙佳"作为一个整体时），需要自己手动用其他分隔符隔开，再写出分隔符</p>
+            <p>key name即生成的对象的key，在下面的例子中即为id title name，用空格隔开</p>
             <pre><code>
                 1   零臃肿抗寒大衣 http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327
                 =>

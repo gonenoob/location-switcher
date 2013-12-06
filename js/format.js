@@ -67,6 +67,9 @@ function appController($scope) {
             $scope.result = formatData(getInput(), getSpliter(), getFormater());
         }
     );
+
+    $scope.input = "1 零臃肿抗寒大衣 http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327";
+    $scope.formater = "id key name";
 }
 
 function formatData(input, spliter, formater) {
