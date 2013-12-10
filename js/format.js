@@ -46,7 +46,7 @@ function appController($scope) {
             return $scope.spliter || defaultSpliter;
         },
         getInput = function() {
-            return $scope.input || "";  
+            return $scope.input || "";
         },
         getFormater = function() {
             return $scope.formater || "";
@@ -54,17 +54,22 @@ function appController($scope) {
 
     $scope.$watch('input',
         function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater());
+            $scope.result = formatData(getInput(), getSpliter(), getFormater(), $scope.filters);
         }
     );
     $scope.$watch('spliter',
         function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater());
+            $scope.result = formatData(getInput(), getSpliter(), getFormater(), $scope.filters);
         }
     );
     $scope.$watch('formater',
         function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater());
+            $scope.result = formatData(getInput(), getSpliter(), getFormater(), $scope.filters);
+        }
+    );
+    $scope.$watch('filters',
+        function(to, from) {
+            $scope.result = formatData(getInput(), getSpliter(), getFormater(), to);
         }
     );
 
@@ -76,13 +81,6 @@ function appController($scope) {
         var template = Handlebars.compile($scope.template);
         var json = JSON.parse($scope.json);
         var html = template(json);
-
-        $scope.filters && $scope.filters.split("\n").forEach(function(value, index) {
-            value = trim(value);
-
-
-            html = html.replace(new RegExp(value, "g"), "");
-        });
         $scope.html = html;
     };
     $scope.template = $("#template-theme").html();
@@ -90,7 +88,7 @@ function appController($scope) {
     $scope.json = JSON.stringify(d);
 }
 
-function formatData(input, spliter, formater) {
+function formatData(input, spliter, formater, filters) {
     var data = [],
         keys = [],
         ret = [];
@@ -120,6 +118,12 @@ function formatData(input, spliter, formater) {
         ret.push(retItem);
     });
 
+    ret = JSON.stringify(ret);
+    filters && filters.split("\n").forEach(function(value, index) {
+        value = trim(value);
+
+        ret = ret.replace(new RegExp(value, "g"), "");
+    });
     return ret;
 
 }
