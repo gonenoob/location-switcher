@@ -97,7 +97,7 @@ function formatData(input, spliter, formater) {
         line = trim(line);
         if (line) {
             var cols = line.split(spliter);
-            
+
             if (cols.length == keys.length) {
                 data.push(cols);
             }
@@ -107,7 +107,7 @@ function formatData(input, spliter, formater) {
     data.forEach(function(item, index) {
         var retItem = {};
         item.forEach(function(value, index) {
-            retItem[keys[index]] = value;
+            retItem[keys[index]] = trim(value);
         });
         ret.push(retItem);
     });
