@@ -70,12 +70,20 @@ function appController($scope) {
 
     $scope.input = "1 零臃肿抗寒大衣 http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327\n2   恋冬毛衣    http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135328";
     $scope.formater = "id title url";
+    $scope.filters = "http://miiee.taobao.com";
 
     $scope.toHtml = function() {
         var template = Handlebars.compile($scope.template);
         var json = JSON.parse($scope.json);
-        $scope.html = template(json);
-        console.log(json);
+        var html = template(json);
+
+        $scope.filters && $scope.filters.split("\n").forEach(function(value, index) {
+            value = trim(value);
+
+
+            html = html.replace(new RegExp(value, "g"), "");
+        });
+        $scope.html = html;
     };
     $scope.template = $("#template-theme").html();
     var d = [{"id":"1","title":"零臃肿抗寒大衣","url":"http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327"},{"id":"2","title":"恋冬毛衣","url":"http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135328"}];
