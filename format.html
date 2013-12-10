@@ -81,7 +81,7 @@
     <script type="text/template" id="template-theme">
         <div class="miiee-content">
             {{#each this}}
-            <area data-id="{{@index}}" shape="rect" coords="" href="{{{ url }}}" alt="{{ title }}" title="title" target="_blank">
+            <area data-id="{{@index}}" shape="rect" coords="" href="{{{ url }}}" alt="{{ title }}" title="{{ title }}" target="_blank">
             {{/each}}
             {{#each this}}
             <a data-id="{{@index}}" class="pointing ui-draggable" style="position: absolute; left: 0px; top: 0px;" target="_blank" href="{{{ url }}}" alt="{{ title }}" title="{{ title }}"></a>
