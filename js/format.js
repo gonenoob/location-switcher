@@ -124,6 +124,6 @@ function formatData(input, spliter, formater, filters) {
 
         ret = ret.replace(new RegExp(value, "g"), "");
     });
-    return ret;
+    return JSON.parse(ret);
 
 }
