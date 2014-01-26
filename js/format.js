@@ -86,6 +86,17 @@ function appController($scope) {
     $scope.template = $("#template-theme").html();
     var d = [{"id":"1","title":"零臃肿抗寒大衣","url":"http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327"},{"id":"2","title":"恋冬毛衣","url":"http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135328"}];
     $scope.json = JSON.stringify(d);
+
+    $scope.$watch("images", function(to, from) {
+        var source = to.split("\n"),
+            ret = "";
+        source.forEach(function(line) {
+            line = trim(line);
+            ret += '<img src="' + line + '" alt="" usemap="">';
+        });
+
+        $scope.imageHtml = ret;
+    });
 }
 
 function formatData(input, spliter, formater, filters) {
