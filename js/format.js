@@ -89,11 +89,13 @@ function appController($scope) {
 
     $scope.$watch("images", function(to, from) {
         var source = to.split("\n"),
+            line,
             ret = "";
-        source.forEach(function(line) {
+        for (var i = source.length - 1; i >= 0; i--) {
+            line = source[i];
             line = trim(line);
             ret += '<img src="' + line + '" alt="" usemap="">';
-        });
+        }
 
         $scope.imageHtml = ret;
     });
