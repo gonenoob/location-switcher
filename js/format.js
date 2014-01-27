@@ -88,6 +88,9 @@ function appController($scope) {
     $scope.json = JSON.stringify(d);
 
     $scope.$watch("images", function(to, from) {
+        if (!to) {
+            return;
+        }
         var source = to.split("\n"),
             line,
             ret = "";
