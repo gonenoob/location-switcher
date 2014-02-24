@@ -97,7 +97,7 @@ function appController($scope) {
         for (var i = source.length - 1; i >= 0; i--) {
             line = source[i];
             line = trim(line);
-            ret += '<img src="' + line + '" alt="" usemap="">';
+            ret += '<img src="' + line + '" alt="" usemap="">\n';
         }
 
         $scope.imageHtml = ret;
