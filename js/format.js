@@ -61,6 +61,11 @@ function appController($scope) {
             $scope.result = formatData(getTitle(), getUrl(), $scope.filters);
         }
     );
+    $scope.$watch('result',
+        function(to, from) {
+            $scope.data = JSON.parse(to);
+        }
+    );
 
     $scope.filters = "http://miiee.taobao.com";
 
