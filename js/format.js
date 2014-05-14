@@ -67,7 +67,7 @@ function appController($scope) {
         }
     );
 
-    $scope.filters = "http://miiee.taobao.com";
+    $scope.filters = "http://miiee.taobao.com\nhttps://miiee.taobao.com";
 
     $scope.toHtml = function() {
         var template = Handlebars.compile($scope.template);
