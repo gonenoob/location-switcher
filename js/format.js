@@ -1,5 +1,3 @@
-var trim = $.trim;
-
 angular.module("tbtx.directive", []).directive('ngCopy', ['$rootScope',
     function() {
         // Runs during compile
@@ -40,106 +38,78 @@ angular.module("tbtx.directive", []).directive('ngCopy', ['$rootScope',
 var app = angular.module('tbtx', ['tbtx.directive']);
 
 function appController($scope) {
-    var defaultSpliter = /\s+/;
 
-    var getSpliter = function() {
-            return $scope.spliter || defaultSpliter;
+    var getTitle = function() {
+            return $scope.title || "";
         },
-        getInput = function() {
-            return $scope.input || "";
-        },
-        getFormater = function() {
-            return $scope.formater || "";
+        getUrl = function() {
+            return $scope.url || "";
         };
 
-    $scope.$watch('input',
+    $scope.$watch('title',
         function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater(), $scope.filters);
+            $scope.result = formatData(getTitle(), getUrl(), $scope.filters);
         }
     );
-    $scope.$watch('spliter',
+    $scope.$watch('url',
         function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater(), $scope.filters);
-        }
-    );
-    $scope.$watch('formater',
-        function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater(), $scope.filters);
+            $scope.result = formatData(getTitle(), getUrl(), $scope.filters);
         }
     );
     $scope.$watch('filters',
         function(to, from) {
-            $scope.result = formatData(getInput(), getSpliter(), getFormater(), to);
+            $scope.result = formatData(getTitle(), getUrl(), $scope.filters);
         }
     );
 
-    $scope.input = "1 零臃肿抗寒大衣 http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327\n2   恋冬毛衣    http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135328";
-    $scope.formater = "id title url";
     $scope.filters = "http://miiee.taobao.com";
 
     $scope.toHtml = function() {
         var template = Handlebars.compile($scope.template);
-        var json = JSON.parse($scope.json);
+        var json = JSON.parse($scope.result);
         var html = template(json);
         $scope.html = html;
     };
+
     $scope.template = $("#template-theme").html();
-    var d = [{"id":"1","title":"零臃肿抗寒大衣","url":"http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135327"},{"id":"2","title":"恋冬毛衣","url":"http://miiee.taobao.com/talent_special_item.htm?uid=900819&sid=135328"}];
-    $scope.json = JSON.stringify(d);
 
     $scope.$watch("images", function(to, from) {
         if (!to) {
             return;
         }
         var source = to.split("\n"),
-            line,
-            ret = "";
-        for (var i = source.length - 1; i >= 0; i--) {
-            line = source[i];
-            line = trim(line);
-            ret += '<img src="' + line + '" alt="" usemap="">\n';
-        }
+            template = Handlebars.compile($("#template-image").html()),
+            ret = template(source);
 
         $scope.imageHtml = ret;
     });
 }
 
-function formatData(input, spliter, formater, filters) {
-    var data = [],
-        keys = [],
-        ret = [];
-
-    // 生成对象的keys
-    formater.split(/\s+/).forEach(function(key) {
-        keys.push(trim(key));
-    });
+function formatData(title, url, filters) {
+    var ret = [];
 
     // 过滤空行，个数不正确的行
-    input.split("\n").forEach(function(line) {
-        line = trim(line);
+    title.split("\n").forEach(function(line, i) {
+        line = line.trim();
         if (line) {
-            var cols = line.split(spliter);
-
-            if (cols.length == keys.length) {
-                data.push(cols);
-            }
+            ret[i] = ret[i] || {};
+            ret[i].title = line;
         }
     });
-
-    data.forEach(function(item, index) {
-        var retItem = {};
-        item.forEach(function(value, index) {
-            retItem[keys[index]] = trim(value);
-        });
-        ret.push(retItem);
+    url.split("\n").forEach(function(line, i) {
+        line = line.trim();
+        if (line) {
+            ret[i] = ret[i] || {};
+            ret[i].url = line;
+        }
     });
 
     ret = JSON.stringify(ret);
     filters && filters.split("\n").forEach(function(value, index) {
-        value = trim(value);
+        value = value.trim();
 
         ret = ret.replace(new RegExp(value, "g"), "");
     });
-    return JSON.parse(ret);
-
+    // return JSON.parse(ret);
+    return ret;
 }
