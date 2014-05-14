@@ -91,22 +91,27 @@ function appController($scope) {
 }
 
 function formatData(title, url, filters) {
-    var ret = [];
+    var ret = [],
+        titles,
+        urls;
 
     // 过滤空行，个数不正确的行
-    title.split("\n").forEach(function(line, i) {
-        line = line.trim();
-        if (line) {
-            ret[i] = ret[i] || {};
-            ret[i].title = line;
-        }
+    titles = title.split("\n").filter(function(line) {
+        return line.trim();
     });
-    url.split("\n").forEach(function(line, i) {
+    urls = url.split("\n").filter(function(line) {
+        return line.trim();
+    });
+
+    titles.forEach(function(line, i) {
         line = line.trim();
-        if (line) {
-            ret[i] = ret[i] || {};
-            ret[i].url = line;
-        }
+        ret[i] = ret[i] || {};
+        ret[i].title = line;
+    });
+    urls.forEach(function(line, i) {
+        line = line.trim();
+        ret[i] = ret[i] || {};
+        ret[i].url = line;
     });
 
     ret = JSON.stringify(ret);
