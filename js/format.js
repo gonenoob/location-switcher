@@ -84,7 +84,7 @@ function appController($scope) {
         }
         var source = to.split("\n"),
             template = Handlebars.compile($("#template-image").html()),
-            ret = template(source);
+            ret = template(source.reverse());
 
         $scope.imageHtml = ret;
     });
