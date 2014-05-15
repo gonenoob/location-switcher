@@ -71,7 +71,7 @@
 (function(){
     var data = {{ result }};
     var handler = function(index) {
-        $(el).attr({
+        $(this).attr({
             href: data[index].url,
             title: data[index].title,
             target: "_blank"
