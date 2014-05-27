@@ -84,7 +84,19 @@ function appController($scope) {
         }
         var source = to.split("\n"),
             template = Handlebars.compile($("#template-image").html()),
-            ret = template(source.reverse());
+            ret = template(source.reverse().map(function(src) {
+                var ret = {
+                    src: src
+                };
+
+                var pattern = /-(\d+)-(\d+)\.(jpg|png|gif)$/,
+                    match = pattern.exec(src);
+                if (match) {
+                    ret.width = match[1];
+                    ret.height = match[2];
+                }
+                return ret;
+            }));
 
         $scope.imageHtml = ret;
     });
