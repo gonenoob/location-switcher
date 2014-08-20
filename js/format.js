@@ -102,6 +102,33 @@ function appController($scope) {
     });
 }
 
+var urlMap = [{
+    pattern: /\/detail\/\d+\/t\/(\d+)_(\d+).htm/,
+    url: "/itemjump.htm?tid={{1}}&itemid={{2}}"
+}, {
+    pattern: /\/detail\/\d+\/c\/(\d+).htm/,
+    url: "/itemjump.htm?tid={{1}}"
+}, {
+    pattern: /\/detail\/\d+\/d\/(\d+).htm/,
+    url: "/itemjump.htm?tid={{1}}"
+}];
+
+function mapUrl(val) {
+    var item,
+        match,
+        i;
+
+    for (i = 0; i < urlMap.length; i++) {
+        item = urlMap[i];
+        match = item.pattern.exec(val);
+        if (match) {
+            return substitute(item.url, match);
+        }
+    }
+
+    return val;
+}
+
 function formatData(title, url, filters) {
     var ret = [],
         titles,
@@ -123,6 +150,8 @@ function formatData(title, url, filters) {
     urls.forEach(function(line, i) {
         line = line.trim();
         ret[i] = ret[i] || {};
+
+        line = mapUrl(line);
         ret[i].url = line;
     });
 
@@ -134,4 +163,13 @@ function formatData(title, url, filters) {
     });
     // return JSON.parse(ret);
     return ret;
+}
+
+function substitute(str, o, regexp) {
+    return str.replace(regexp || /\\?\{\{\s*([^{}\s]+)\s*\}\}/g, function(match, name) {
+        if (match.charAt(0) === '\\') {
+            return match.slice(1);
+        }
+        return (o[name] === undefined) ? '' : o[name];
+    });
 }
