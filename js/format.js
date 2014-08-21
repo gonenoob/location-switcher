@@ -151,7 +151,7 @@ function formatData(title, url, filters) {
         line = line.trim();
         ret[i] = ret[i] || {};
 
-        line = mapUrl(line);
+        // line = mapUrl(line);
         ret[i].url = line;
     });
 
